@@ -1,47 +1,9 @@
-@import url('https://fonts.googleapis.com/css2?family=Merriweather:wght@300;400;700;900&family=Lato:wght@300;400;700;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400&family=Lato:wght@300;400;700;900&display=swap');
 @import "tailwindcss";
 
-/* Custom CSS Variables */
-:root {
-  --color-wood: #5D4037;
-  --color-charcoal: #2E2E2E;
-  --color-gold: #D4AF37;
-  --color-warm-white: #FAF8F5;
-  --color-wood-light: #8D6E63;
-  --color-wood-dark: #3E2723;
-}
-
-/* Base styles */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-html {
-  scroll-behavior: smooth;
-}
-
-body {
-  font-family: 'Lato', sans-serif;
-  background-color: var(--color-warm-white);
-  color: var(--color-charcoal);
-  line-height: 1.6;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-/* Font utilities */
-.font-heading {
-  font-family: 'Merriweather', serif;
-}
-
-.font-body {
-  font-family: 'Lato', sans-serif;
-}
-
-/* Custom Tailwind theme colors */
+/* Tailwind v4 Theme Configuration */
 @theme {
+  /* Colors */
   --color-wood: #5D4037;
   --color-wood-light: #8D6E63;
   --color-wood-dark: #3E2723;
@@ -50,25 +12,28 @@ body {
   --color-gold-light: #E4C75F;
   --color-warm-white: #FAF8F5;
   --color-cream: #F5F0E8;
-  --font-family-heading: 'Merriweather', serif;
-  --font-family-body: 'Lato', sans-serif;
+
+  /* Fonts */
+  --font-heading: 'Merriweather', Georgia, serif;
+  --font-body: 'Lato', system-ui, sans-serif;
 }
 
-/* Wood grain texture overlay */
-.wood-texture {
-  position: relative;
+/* Base Styles */
+html {
+  scroll-behavior: smooth;
 }
 
-.wood-texture::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
-  opacity: 0.03;
-  pointer-events: none;
+body {
+  font-family: var(--font-body);
+  background-color: var(--color-warm-white);
+  color: var(--color-charcoal);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.font-heading {
+  font-family: var(--font-heading);
 }
 
 /* Animations */
@@ -84,12 +49,13 @@ body {
 }
 
 @keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translateY(-25%) translateX(-50%); }
+  50% { transform: translateY(0) translateX(-50%); }
 }
 
 .animate-fade-in-up {
@@ -100,59 +66,21 @@ body {
   animation: fadeIn 0.6s ease-out forwards;
 }
 
-/* Intersection Observer animations */
-.reveal {
-  opacity: 0;
-  transform: translateY(30px);
-  transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+.animate-bounce {
+  animation: bounce 1s ease-in-out infinite;
 }
 
-.reveal.active {
-  opacity: 1;
-  transform: translateY(0);
+/* Card Effects */
+.card-hover {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-/* Custom scrollbar */
-::-webkit-scrollbar {
-  width: 8px;
+.card-hover:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 25px 50px -12px rgba(93, 64, 55, 0.25);
 }
 
-::-webkit-scrollbar-track {
-  background: var(--color-cream);
-}
-
-::-webkit-scrollbar-thumb {
-  background: var(--color-wood-light);
-  border-radius: 4px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: var(--color-wood);
-}
-
-/* Button hover effects */
-.btn-primary {
-  position: relative;
-  overflow: hidden;
-  transition: all 0.3s ease;
-}
-
-.btn-primary::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-  transition: left 0.5s ease;
-}
-
-.btn-primary:hover::before {
-  left: 100%;
-}
-
-/* Image hover zoom effect */
+/* Image Zoom */
 .img-zoom {
   overflow: hidden;
 }
@@ -162,28 +90,72 @@ body {
 }
 
 .img-zoom:hover img {
-  transform: scale(1.05);
+  transform: scale(1.08);
 }
 
-/* Card hover effect */
-.card-hover {
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+/* Button Shine Effect */
+.btn-shine {
+  position: relative;
+  overflow: hidden;
 }
 
-.card-hover:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 20px 40px rgba(93, 64, 55, 0.15);
+.btn-shine::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+  transition: left 0.5s ease;
 }
 
-/* Form focus styles */
+.btn-shine:hover::before {
+  left: 100%;
+}
+
+/* Form Styles */
 input:focus, textarea:focus, select:focus {
   outline: none;
   border-color: var(--color-wood);
-  box-shadow: 0 0 0 3px rgba(93, 64, 55, 0.1);
+  box-shadow: 0 0 0 3px rgba(93, 64, 55, 0.15);
 }
 
-/* Selection color */
+/* Selection */
 ::selection {
   background-color: var(--color-gold);
   color: var(--color-charcoal);
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-cream);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-wood-light);
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-wood);
+}
+
+/* Wood Texture */
+.wood-texture {
+  position: relative;
+}
+
+.wood-texture::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  opacity: 0.04;
+  pointer-events: none;
+  z-index: 1;
 }

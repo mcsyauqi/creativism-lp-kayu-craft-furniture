@@ -1,6 +1,15 @@
 import { useState, useEffect } from 'react';
 import { Menu, X, Phone } from 'lucide-react';
-import { Button } from '../ui/Button';
+
+const colors = {
+  wood: '#5D4037',
+  woodLight: '#8D6E63',
+  woodDark: '#3E2723',
+  charcoal: '#2E2E2E',
+  gold: '#D4AF37',
+  warmWhite: '#FAF8F5',
+  cream: '#F5F0E8',
+};
 
 export function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -24,41 +33,48 @@ export function Navbar() {
 
   return (
     <nav
-      className={`
-        fixed top-0 left-0 right-0 z-50 transition-all duration-300
-        ${isScrolled
-          ? 'bg-warm-white/95 backdrop-blur-md shadow-lg py-3'
-          : 'bg-transparent py-5'
-        }
-      `}
+      className="fixed top-0 left-0 right-0 z-50 transition-all duration-300"
+      style={{
+        backgroundColor: isScrolled ? 'rgba(250,248,245,0.97)' : 'transparent',
+        backdropFilter: isScrolled ? 'blur(12px)' : 'none',
+        boxShadow: isScrolled ? '0 4px 20px rgba(0,0,0,0.1)' : 'none',
+        padding: isScrolled ? '12px 0' : '20px 0',
+      }}
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto px-5 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between">
           {/* Logo */}
-          <a href="#" className="flex items-center space-x-2">
-            <div className="w-10 h-10 bg-gradient-to-br from-wood-light to-wood-dark rounded-lg flex items-center justify-center">
-              <span className="font-heading text-xl font-bold text-gold">K</span>
-            </div>
-            <div>
-              <span className={`font-heading text-xl font-bold ${isScrolled ? 'text-charcoal' : 'text-warm-white'}`}>
-                KayuKarya
+          <a href="#" className="flex items-center gap-3">
+            <div
+              className="w-11 h-11 rounded-xl flex items-center justify-center"
+              style={{
+                background: `linear-gradient(135deg, ${colors.woodLight}, ${colors.woodDark})`
+              }}
+            >
+              <span className="font-heading text-xl font-bold" style={{ color: colors.gold }}>
+                K
               </span>
             </div>
+            <span
+              className="font-heading text-xl font-bold"
+              style={{ color: isScrolled ? colors.charcoal : colors.warmWhite }}
+            >
+              KayuKarya
+            </span>
           </a>
 
           {/* Desktop Navigation */}
-          <div className="hidden lg:flex items-center space-x-8">
+          <div className="hidden lg:flex items-center gap-8">
             {navLinks.map((link) => (
               <a
                 key={link.name}
                 href={link.href}
-                className={`
-                  text-sm font-medium transition-colors duration-200
-                  ${isScrolled
-                    ? 'text-charcoal hover:text-wood'
-                    : 'text-warm-white/90 hover:text-gold'
-                  }
-                `}
+                className="text-sm font-semibold transition-colors duration-200"
+                style={{
+                  color: isScrolled ? colors.charcoal : 'rgba(250,248,245,0.9)',
+                }}
+                onMouseEnter={(e) => e.target.style.color = colors.gold}
+                onMouseLeave={(e) => e.target.style.color = isScrolled ? colors.charcoal : 'rgba(250,248,245,0.9)'}
               >
                 {link.name}
               </a>
@@ -66,28 +82,34 @@ export function Navbar() {
           </div>
 
           {/* CTA Buttons */}
-          <div className="hidden lg:flex items-center space-x-4">
+          <div className="hidden lg:flex items-center gap-5">
             <a
               href="https://wa.me/62812KAYUKARYA"
               target="_blank"
               rel="noopener noreferrer"
-              className={`
-                flex items-center space-x-2 text-sm font-medium transition-colors
-                ${isScrolled ? 'text-charcoal hover:text-wood' : 'text-warm-white hover:text-gold'}
-              `}
+              className="flex items-center gap-2 text-sm font-semibold transition-colors"
+              style={{ color: isScrolled ? colors.charcoal : colors.warmWhite }}
             >
               <Phone className="w-4 h-4" />
               <span>WhatsApp</span>
             </a>
-            <Button variant={isScrolled ? 'primary' : 'white'} size="sm">
+            <a
+              href="#contact"
+              className="px-5 py-2.5 rounded-lg text-sm font-bold transition-all"
+              style={{
+                backgroundColor: isScrolled ? colors.wood : colors.warmWhite,
+                color: isScrolled ? colors.warmWhite : colors.wood,
+              }}
+            >
               Inquiry
-            </Button>
+            </a>
           </div>
 
           {/* Mobile menu button */}
           <button
             onClick={() => setIsOpen(!isOpen)}
-            className={`lg:hidden p-2 rounded-lg ${isScrolled ? 'text-charcoal' : 'text-warm-white'}`}
+            className="lg:hidden p-2 rounded-lg"
+            style={{ color: isScrolled ? colors.charcoal : colors.warmWhite }}
           >
             {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
           </button>
@@ -95,32 +117,41 @@ export function Navbar() {
 
         {/* Mobile Navigation */}
         {isOpen && (
-          <div className="lg:hidden mt-4 pb-4 bg-warm-white rounded-2xl shadow-xl animate-fade-in">
-            <div className="px-4 py-3 space-y-3">
+          <div
+            className="lg:hidden mt-4 pb-4 rounded-2xl shadow-xl animate-fade-in"
+            style={{ backgroundColor: colors.warmWhite }}
+          >
+            <div className="px-5 py-4 space-y-1">
               {navLinks.map((link) => (
                 <a
                   key={link.name}
                   href={link.href}
                   onClick={() => setIsOpen(false)}
-                  className="block text-charcoal hover:text-wood py-2 font-medium"
+                  className="block py-3 font-semibold transition-colors"
+                  style={{ color: colors.charcoal }}
                 >
                   {link.name}
                 </a>
               ))}
-              <hr className="border-cream" />
-              <div className="flex flex-col space-y-3 pt-2">
+              <hr style={{ borderColor: colors.cream, margin: '12px 0' }} />
+              <div className="flex flex-col gap-3 pt-2">
                 <a
                   href="https://wa.me/62812KAYUKARYA"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center space-x-2 text-charcoal hover:text-wood"
+                  className="flex items-center gap-2 font-semibold"
+                  style={{ color: colors.charcoal }}
                 >
                   <Phone className="w-4 h-4" />
                   <span>WhatsApp</span>
                 </a>
-                <Button variant="primary" size="sm" className="w-full">
+                <a
+                  href="#contact"
+                  className="block text-center py-3 rounded-lg font-bold"
+                  style={{ backgroundColor: colors.wood, color: colors.warmWhite }}
+                >
                   Inquiry
-                </Button>
+                </a>
               </div>
             </div>
           </div>
